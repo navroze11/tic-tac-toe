@@ -1,5 +1,3 @@
-// C++ program to find the next optimal move for
-// a player
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -29,7 +27,7 @@ void displayBoard(char board[][3])
 	{
 		for(int j = 0; j < 3; j++)
 		{
-			cout<<board[i][j];
+			cout<<"_"<<board[i][j]<<"_"<<"|";
 		}
 		cout<<endl;
 	}	
@@ -37,7 +35,6 @@ void displayBoard(char board[][3])
 
 void initBoard(char board[][3])
 {
-	cout<<"Board initialized";
 	for(int i = 0; i < 3; i++)
 	{
 		for(int j = 0; j < 3; j++)
@@ -166,27 +163,36 @@ void startGame(char board[][3])
 	int row, column, score;
 	while(isMovesLeft(board))
 	{
-		cout<<"\nEnter the row and column: ";
-		cin>>row>>column;
-		//check validation of cell before inserting
+		do{
+			cout<<"\nEnter the row[1-3] and column[1-3] | (Example: 2 3) | = ";
+			cin>>row>>column;	
+			cout<<endl;
+		} while((row > 3 || row < 1) || column > 3 || column < 1);
 		board[row-1][column-1] = 'x';
 		displayBoard(board);
 		if(checkWin(board, player))
 		{
+			cout<<"--------------"<<endl;
 			cout<<"Player wins!!!"<<endl;
+			cout<<"--------------"<<endl;
 			return;
 		}
 		Move bestMove = minimax(board);
 		board[bestMove.row][bestMove.col] = 'o';
+		cout<<"\nComputer has played: "<<bestMove.row+1<<" "<<bestMove.col+1<<endl<<endl;
 		displayBoard(board);
 		if(checkWin(board, ai))
 		{
+			cout<<"----------------"<<endl;
 			cout<<"Computer wins!!!"<<endl;
+			cout<<"----------------"<<endl<<endl;
 			return;	
 		}
 		if (checkTie(board))
 		{
-		    std::cout << "\n*** Tie ***\n";
+			cout<<"------------------"<<endl;
+		    cout << "\n*** MATCH DRAW ***\n";
+		    cout<<"------------------"<<endl<<endl;
 		}	
 	}
 }
@@ -198,7 +204,7 @@ int main()
 	char choice;
 	do{
 		initBoard(board);
-		cout<<"Would you like to play a game of tic-tac-toe: \n1).Y(Yes)\n2).N(No)?\n";
+		cout<<"Would you like to play a game of tic-tac-toe: \n1).Y(Yes)\n2).N(No)?\n3).Press ctrl+c to exit\n";
 		cin>>choice;
 		if(choice == 'n' || choice == 'N')
 			break;
