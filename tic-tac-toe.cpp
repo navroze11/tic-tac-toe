@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+//Included  prototype since both are recursive functions
 int minSearch(char board[][3]);
 int maxSearch(char board[][3]);
 
@@ -11,6 +12,7 @@ struct Move
 
 char player = 'x', ai = 'o', space = '_';
 
+//Check if game is a tie
 bool checkTie(char board[][3])
 {
     for (int i = 0; i < 3; i++)
@@ -21,6 +23,7 @@ bool checkTie(char board[][3])
     return true;
 }
 
+//Display board with 'x' and 'o' values 
 void displayBoard(char board[][3])
 {
 	for(int i = 0; i < 3; i++)
@@ -33,6 +36,7 @@ void displayBoard(char board[][3])
 	}	
 }
 
+//Initialize board
 void initBoard(char board[][3])
 {
 	for(int i = 0; i < 3; i++)
@@ -44,7 +48,7 @@ void initBoard(char board[][3])
 	}
 }
 
-
+//Check if there are any moves left to play
 bool isMovesLeft(char board[3][3])
 {
 	for (int i = 0; i<3; i++)
@@ -54,6 +58,7 @@ bool isMovesLeft(char board[3][3])
 	return false;
 }
 
+//Check if ai has won or players has one
 bool checkWin(char board[][3], char pla)
 {
     for ( int i = 0; i < 3; i++)
@@ -77,7 +82,7 @@ bool checkWin(char board[][3], char pla)
     return false;
 }
 
-
+//AI evaluation criteria
 int minSearch(char board[][3])
 {
     if (checkWin(board, player)) { return 10; }
@@ -102,6 +107,7 @@ int minSearch(char board[][3])
     return score;
 }
 
+//Player evaluation criteria
 int maxSearch(char board[][3]) 
 {
 	if (checkWin(board, player)) { return 10; }
