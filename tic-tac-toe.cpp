@@ -162,45 +162,48 @@ Move minimax(char board[][3])
     return move;
 }
 
-
 //Start the game
 void startGame(char board[][3])
 {
-	int row, column, score;
-	while(isMovesLeft(board))
-	{
-		do{
-			cout<<"\nEnter the row[1-3] and column[1-3] | (Example: 2 3) | = ";
-			cin>>row>>column;	
-			cout<<endl;
-		} while((row > 3 || row < 1) || column > 3 || column < 1);
-		board[row-1][column-1] = 'x';
-		displayBoard(board);
-		if(checkWin(board, player))
-		{
-			cout<<"--------------"<<endl;
-			cout<<"Player wins!!!"<<endl;
-			cout<<"--------------"<<endl;
-			return;
-		}
-		Move bestMove = minimax(board);
-		board[bestMove.row][bestMove.col] = 'o';
-		cout<<"\nComputer has played: "<<bestMove.row+1<<" "<<bestMove.col+1<<endl<<endl;
-		displayBoard(board);
-		if(checkWin(board, ai))
-		{
-			cout<<"----------------"<<endl;
-			cout<<"Computer wins!!!"<<endl;
-			cout<<"----------------"<<endl<<endl;
-			return;	
-		}
-		if (checkTie(board))
-		{
-			cout<<"------------------"<<endl;
-		    cout << "\n*** MATCH DRAW ***\n";
-		    cout<<"------------------"<<endl<<endl;
-		}	
-	}
+    int row, column, score;
+    bool fail = true;
+    while(isMovesLeft(board))
+    {
+        do{
+            cout<<"\nEnter the row[1-3] and column[1-3] | (Example: 2 3) | = ";
+            cin>>row>>column;
+            fail = board[row][column] != '_';
+        }while(row > 3 || row < 1 || column > 3 || column < 1 || board[row-1][column-1] == player || board[row-1][column-1] == ai);
+
+        board[row-1][column-1] = 'x';
+        displayBoard(board);
+        if(checkWin(board, player))
+        {
+            cout<<"--------------"<<endl;
+            cout<<"Player wins!!!"<<endl;
+            cout<<"--------------"<<endl;
+            return;
+        }
+        Move bestMove = minimax(board);
+        board[bestMove.row][bestMove.col] = 'o';
+        cout<<"\nComputers Turn\n\n";
+        displayBoard(board);
+        if(checkWin(board, ai))
+        {
+            cout<<"----------------"<<endl;
+            cout<<"Computer wins!!!"<<endl;
+            cout<<"----------------"<<endl<<endl;
+            return;
+        }
+        if (checkTie(board))
+        {
+            cout<<"------------------"<<endl;
+            cout << "\n*** MATCH DRAW ***\n";
+            cout<<"------------------"<<endl<<endl;
+            return;
+        }
+        cout<<"\nComputer has played: "<<bestMove.row + 1<<" "<<bestMove.col + 1<<endl<<endl;
+    }
 }
 
 // Driver code
@@ -217,6 +220,7 @@ int main()
 		cout<<"======================="<<endl;
 		cout<<"Welcome to tic-tac-toe!"<<endl;
 		cout<<"======================="<<endl;
+        displayBoard(board);
 		startGame(board);
 	} while(choice == 'y' || choice == 'Y');
 	return 0;
